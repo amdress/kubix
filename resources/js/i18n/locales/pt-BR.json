@@ -1,0 +1,134 @@
+{
+  "nav": {
+    "solutions": "Soluções",
+    "contact": "Contato",
+    "login": "Entrar"
+  },
+  "landing": {
+    "status": "System Status: Operacional",
+    "hero": {
+      "title_1": "Infraestrutura",
+      "title_2": "Líquida para",
+      "title_3": "Negócios Locais.",
+      "subtitle": "A Kubix não é um software. É um {highlight} que permite que sua empresa cresça sem o atrito da burocracia técnica.",
+      "highlight": "Sistema de Operação Modular",
+      "cta_primary": "Começar Agora",
+      "cta_secondary": "Explorar Soluções",
+      "location_detecting": "Detectando sua localização..."
+    },
+    "stats": {
+      "companies": "Empresas Ativas",
+      "users": "Usuários",
+      "neighborhoods": "Bairros Ativos",
+      "satisfaction": "Satisfação"
+    },
+    "mobile": {
+      "tag": "Experiência Mobile",
+      "default_place": "Seu Bairro",
+      "connector": "na",
+      "title_2": "palma da sua mão",
+      "subtitle": "KUBIX é um PWA projetado para oferecer velocidade nativa sem instalações pesadas. Gerencie todo o território em uma interface otimizada.",
+      "pwa_badge": "Otimizado como Progressive Web App",
+      "badges": {
+        "territory": "Território",
+        "status": "Empresas",
+        "active": "ativas"
+      },
+      "cta_main": "Começar agora",
+      "cta_share": "Compartilhar App",
+      "steps": {
+        "manage": {
+          "label": "Gerencie",
+          "desc": "Controle seu negócio em tempo real de qualquer lugar."
+        },
+        "plan": {
+          "label": "Planeje",
+          "desc": "Organize recursos, horários e campanhas territoriais."
+        },
+        "expand": {
+          "label": "Expanda",
+          "desc": "Cresça no ecossistema Kubix sem fricções."
+        },
+        "reach": {
+          "label": "Alcance",
+          "desc": "Conecte-se com clientes no seu bairro e além."
+        }
+      }
+    },
+    "testimonials": {
+      "tag": "Eficiência Comprovada",
+      "title_1": "Validado pela",
+      "title_2": "rede Kubix.",
+      "content": [
+        {
+          "text": "A arquitetura modular nos permitiu expandir para 3 filiais sem perder o controle do financeiro.",
+          "author": "Pedro Santos",
+          "role": "CEO · Pedro & Asociados"
+        },
+        {
+          "text": "Finalmente um sistema que entende a dinâmica de diferentes fusos horários e moedas.",
+          "author": "Ana Bittencourt",
+          "role": "Manager · Kubix Manaus"
+        },
+        {
+          "text": "Implementamos a solução de publicidade territorial e nosso alcance triplicou em 2 meses.",
+          "author": "Carlos Li",
+          "role": "Owner · Global Food"
+        }
+      ]
+    }
+  },
+  "auth": {
+    "welcome": {
+      "title": "Protocolo de Acesso Ativo",
+      "btn_login": "Autenticar",
+      "btn_register": "Registrar",
+      "services_link": "Serviços da Infraestrutura"
+    },
+    "login": {
+      "title": "KUBIX",
+      "subtitle": "DRUNK-CODE",
+      "email_label": "Identidade de Acesso",
+      "email_placeholder": "seu{'@'}email.com",
+      "password_label": "Chave Privada",
+      "password_placeholder": "••••••••••••",
+      "forgot": "Resetar",
+      "submit": "Executar Autenticação",
+      "submitting": "Executando...",
+      "register_text": "Nova Entidade?",
+      "register_link": "Entrar na Infraestrutura",
+      "back": "← Voltar"
+    },
+    "register": {
+      "title": "Conta nova",
+      "subtitle": "Capa de proteção KUBIX ativa",
+      "name_label": "Nome da Entidade",
+      "name_placeholder": "Identificador completo",
+      "email_label": "E-mail de Registro",
+      "email_placeholder": "seu{'@'}email.com",
+      "password_label": "Definir Chave",
+      "confirm_label": "Confirmar Chave",
+      "submit": "Finalizar Registro",
+      "already_have_account": "Identidade existente? Voltar"
+    },
+    "recover": {
+      "title": "Resetar Chave",
+      "description": "Insira o e-mail da entidade para receber novas instruções de acesso.",
+      "email_label": "E-mail de Recuperação",
+      "submit": "Enviar Instruções",
+      "cancel": "Abortar e Voltar"
+    },
+    "errors": {
+      "passwords_mismatch": "As chaves privadas não coincidem"
+    }
+  },
+  "footer": {
+    "brand": "Kubix",
+    "copyright": "© {year} {company} · Todos os direitos reservados",
+    "links": {
+      "terms": "Termos",
+      "privacy": "Privacidade",
+      "support": "Suporte"
+    }
+  }
+}

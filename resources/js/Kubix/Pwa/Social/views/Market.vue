@@ -1,0 +1,3 @@
+<template>
+    Market View
+</template>

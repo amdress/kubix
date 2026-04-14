@@ -1,0 +1,77 @@
+{
+  "status": "success",
+  "data": {
+    "session": {
+      "token": "31|TOKEN..."
+    },
+
+    "user": {
+      "id": 3,
+      "name": "Carlos Mendes",
+      "email": "carlos.mendes@email.com",
+      "avatar": "https://i.pravatar.cc/150?u=carlos",
+
+      "roles": ["user"],
+
+      "permissions": {
+        "social": [
+          "view_mural"
+        ]
+      }
+    },
+
+    "branches": [],
+
+    "franchises": [
+      {
+        "id": "franchise_kubix_curitiba",
+        "name": "Kubix Curitiba",
+
+        "role": "owner",
+
+        "status": "active",
+
+        "branding": {
+          "primary": "#4f46e5",
+          "logo": "https://example.com/kubix-curitiba-logo.png",
+          "splash": "https://example.com/kubix-curitiba-splash.jpg"
+        },
+
+        "territory": {
+          "country": "BR",
+          "region": "PR",
+          "city_id": "city_curitiba"
+        },
+
+        "permissions": [
+          "manage_franchise",
+          "create_branch",
+          "assign_branch_managers",
+          "configure_branding",
+          "toggle_solutions_global"
+        ],
+
+        "solutions": [
+          { "slug": "ads", "enabled": true },
+          { "slug": "radar", "enabled": true },
+          { "slug": "alugapp", "enabled": true }
+        ],
+
+        "branches": [
+          {
+            "id": "branch_capao_raso",
+            "name": "Capão Raso",
+            "status": "active"
+          },
+          {
+            "id": "branch_batel",
+            "name": "Batel",
+            "status": "active"
+          }
+        ]
+      }
+    ]
+  },
+
+  "errors": null
+}

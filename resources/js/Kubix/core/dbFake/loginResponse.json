@@ -1,0 +1,89 @@
+{
+  "status": "success",
+  "data": {
+    "session": {
+      "token": "31|UUPQkdGWIGgVTMzUcLw0IWq18YkkhJg0R2HRxRGU8512eaff"
+    },
+
+    "user": {
+      "id": 1,
+      "name": "Juan Pérez",
+      "email": "juan.perez@email.com",
+      "avatar": "https://i.pravatar.cc/150?u=juanperez",
+
+      "roles": ["user"],
+
+      "permissions": {
+        "social": [
+          "view_mural",
+          "post_reels",
+          "comment_ads",
+          "use_radar_social"
+        ]
+      }
+    },
+
+    "branches": [
+      {
+        "id": "branch_capao_raso",
+        "name": "Capão Raso",
+        "type": "neighborhood",
+        "role": "member",
+        "branding": {
+          "primary": "#6366f1",
+          "logo": null
+        },
+
+        "territory": {
+          "country": "BR",
+          "region": "PR",
+          "city_id": "city_curitiba",
+          "neighborhood_id": "nbr_capao_raso"
+        },
+
+        "solutions": [
+          { "slug": "ads", "enabled": true },
+          { "slug": "radar", "enabled": true },
+          { "slug": "alugapp", "enabled": true }
+        ],
+
+        "workspaces": [
+          {
+            "id": "biz_pinchos_capao",
+            "name": "Pinchos Juan - Capão Raso",
+
+            "role": "owner",
+
+            "permissions": [
+              "manage_business_profile",
+              "create_promotions",
+              "edit_location"
+            ],
+
+            "branding": {
+              "primary": "#b91c1c",
+              "logo": "https://img.freepik.com/vector-gratis/logotipo-parrilla-barbacoa-estilo-retro_23-2148484480.jpg"
+            },
+
+            "location": {
+              "city_id": "city_curitiba",
+              "neighborhood_id": "nbr_capao_raso",
+              "lat": -25.4500,
+              "lon": -49.2500
+            },
+
+            "solutions": [
+              { "slug": "ads", "enabled": true },
+              { "slug": "radar", "enabled": false }
+            ]
+          }
+        ]
+      }
+    ],
+
+    "franchises": []
+  },
+
+  "errors": null
+}
+

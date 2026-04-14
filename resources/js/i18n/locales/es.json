@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "solutions": "Soluciones",
+    "contact": "Contacto",
+    "login": "Iniciar sesión"
+  },
+  "landing": {
+    "status": "Estado del sistema: Operativo",
+    "hero": {
+      "title_1": "Infraestructura",
+      "title_2": "Líquida para",
+      "title_3": "Negocios Globales.",
+      "subtitle": "Kubix no es un software. Es un {highlight} que permite que tu empresa crezca sin la fricción de la burocracia técnica.",
+      "highlight": "Sistema Operativo Modular",
+      "cta_primary": "Comenzar Ahora",
+      "cta_secondary": "Explorar Soluciones",
+      "location_detecting": "Detectando tu ubicación..."
+    },
+    "stats": {
+      "companies": "Empresas Activas",
+      "territories": "Territorios",
+      "cities": "Ciudades",
+      "satisfaction": "Satisfacción"
+    },
+    "solutions": {
+      "tag": "Desarrollado para Escalar",
+      "title_1": "Activa lo que",
+      "title_2": "importa ahora.",
+      "subtitle": "Haz clic en un módulo para visualizar la infraestructura específica.",
+      "cta": "Acceder al Módulo"
+    },
+    "testimonials": {
+      "tag": "Eficiencia Comprobada",
+      "title_1": "Validado por la",
+      "title_2": "red Kubix."
+    },
+    "mobile": {
+      "tag": "Tu empresa en el bolsillo",
+      "title_1": "Tu app.",
+      "title_2": "Tu marca.",
+      "subtitle": "Gestiona tu negocio, publica ofertas y alcanza clientes en tu territorio directamente desde el celular.",
+      "pwa_badge": "PWA · Instala sin app store"
+    },
+    "cta": {
+      "territory_prefix": "Tu territorio en",
+      "territory_suffix": "está esperando.",
+      "title_1": "Construido para",
+      "title_2": "Hoy.",
+      "button": "Quiero formar parte"
+    },
+    "footer": {
+      "rights": "Todos los derechos reservados.",
+      "made_by": "Creado por",
+      "terms": "Términos de Servicio",
+      "privacy": "Privacidad",
+      "support": "Soporte"
+    },
+    "auth": {
+      "login": {
+        "title": "KUBIX",
+        "subtitle": "CÓDIGO EN ESTADO PURO",
+        "email_label": "Identidad de Acceso",
+        "email_placeholder": "tu@email.com",
+        "password_label": "Clave Privada",
+        "password_placeholder": "••••••••••••",
+        "forgot": "Restablecer",
+        "submit": "Ejecutar Autenticación",
+        "submitting": "Ejecutando...",
+        "register_text": "¿Nueva Entidad?",
+        "register_link": "Ingresar a la Infraestructura"
+      }
+    }
+  }
+}

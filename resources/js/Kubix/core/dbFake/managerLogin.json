@@ -1,0 +1,66 @@
+{
+  "status": "success",
+  "data": {
+    "session": {
+      "token": "31|TOKEN..."
+    },
+
+    "user": {
+      "id": 2,
+      "name": "Pedro Silva",
+      "email": "pedro.silva@email.com",
+      "avatar": "https://i.pravatar.cc/150?u=pedro",
+
+      "roles": ["user"],
+
+      "permissions": {
+        "social": [
+          "view_mural",
+          "comment_ads"
+        ]
+      }
+    },
+
+    "branches": [
+      {
+        "id": "branch_capao_raso",
+        "name": "Capão Raso",
+        "type": "neighborhood",
+        "status": "active",
+
+        "role": "manager",
+
+        "branding": {
+          "primary": "#6366f1",
+          "logo": null
+        },
+
+        "territory": {
+          "country": "BR",
+          "region": "PR",
+          "city_id": "city_curitiba",
+          "neighborhood_id": "nbr_capao_raso"
+        },
+
+        "permissions": [
+          "manage_branch",
+          "assign_staff",
+          "view_branch_metrics",
+          "toggle_solutions"
+        ],
+
+        "solutions": [
+          { "slug": "ads", "enabled": true },
+          { "slug": "radar", "enabled": true },
+          { "slug": "alugapp", "enabled": true }
+        ],
+
+        "workspaces": []
+      }
+    ],
+
+    "franchises": []
+  },
+
+  "errors": null
+}

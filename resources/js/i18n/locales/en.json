@@ -1,0 +1,74 @@
+{
+  "nav": {
+    "solutions": "Solutions",
+    "contact": "Contact",
+    "login": "Login"
+  },
+  "landing": {
+    "status": "System Status: Operational",
+    "hero": {
+      "title_1": "Infrastructure",
+      "title_2": "Liquid for",
+      "title_3": "Global Businesses.",
+      "subtitle": "Kubix is not software. It is a {highlight} that allows your company to grow without the friction of technical bureaucracy.",
+      "highlight": "Modular Operating System",
+      "cta_primary": "Get Started",
+      "cta_secondary": "Explore Solutions",
+      "location_detecting": "Detecting your location..."
+    },
+    "stats": {
+      "companies": "Active Companies",
+      "territories": "Territories",
+      "cities": "Cities",
+      "satisfaction": "Satisfaction"
+    },
+    "solutions": {
+      "tag": "Built for Scale",
+      "title_1": "Activate what",
+      "title_2": "matters now.",
+      "subtitle": "Click on a module to view the specific infrastructure.",
+      "cta": "Access Module"
+    },
+    "testimonials": {
+      "tag": "Proven Efficiency",
+      "title_1": "Validated by the",
+      "title_2": "Kubix network."
+    },
+    "mobile": {
+      "tag": "Your business in your pocket",
+      "title_1": "Your app.",
+      "title_2": "Your brand.",
+      "subtitle": "Manage your business, publish offers, and reach customers in your territory directly from your phone.",
+      "pwa_badge": "PWA · Install without app store"
+    },
+    "cta": {
+      "territory_prefix": "Your territory in",
+      "territory_suffix": "is waiting.",
+      "title_1": "Built for",
+      "title_2": "Today.",
+      "button": "I want to be part of it"
+    },
+    "footer": {
+      "rights": "All rights reserved.",
+      "made_by": "Created by",
+      "terms": "Terms of Service",
+      "privacy": "Privacy",
+      "support": "Support"
+    },
+    "auth": {
+      "login": {
+        "title": "KUBIX",
+        "subtitle": "DRUNK-CODE",
+        "email_label": "Access Identity",
+        "email_placeholder": "your@email.com",
+        "password_label": "Private Key",
+        "password_placeholder": "••••••••••••",
+        "forgot": "Reset",
+        "submit": "Execute Authentication",
+        "submitting": "Executing...",
+        "register_text": "New Entity?",
+        "register_link": "Enter the Infrastructure"
+      }
+    }
+  }
+}

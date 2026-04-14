@@ -8,7 +8,15 @@
     "require": {
         "php": "^8.2",
         "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10.1"
+        "laravel/reverb": "^1.0",
+        "laravel/sanctum": "^4.0",
+        "laravel/tinker": "^2.10.1",
+        "league/iso3166": "^4.4",
+        "predis/predis": "^3.4",
+        "spatie/laravel-activitylog": "^4.10",
+        "spatie/laravel-data": "^4.18",
+        "spatie/laravel-medialibrary": "^11.17",
+        "spatie/laravel-permission": "^6.23"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
