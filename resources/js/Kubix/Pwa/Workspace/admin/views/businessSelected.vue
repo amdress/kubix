@@ -1,3 +1,0 @@
-<template>
-    Business Selected
-</template>

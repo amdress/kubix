@@ -1,77 +1,126 @@
 <template>
-  <div :class="['flex h-[100dvh] w-full overflow-hidden transition-colors duration-500', 
-                  isDark ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900']">
-    
-    <slot name="sidebar">
-      <Sidebar />
-    </slot>
+    <div
+        :class="[
+            'flex h-[100dvh] w-full overflow-hidden transition-colors duration-500 ',
+            isDark
+                ? 'bg-slate-950 text-slate-100'
+                : 'bg-slate-50 text-slate-900',
+        ]"
+    >
+        <slot name="sidebar">
+            <Sidebar />
+        </slot>
 
-    <div class="flex-1 flex flex-col min-w-0 h-full relative">
-      
-      <slot name="header">
-        <Header
-          v-if="$route.meta.showHeader !== false"
-          :class="[
-            'h-[64px] border-b backdrop-blur-md z-[80] w-full transition-colors duration-500',
-            isDark ? 'bg-slate-900/80 border-slate-800' : 'bg-white/80 border-slate-200'
-          ]"
-        />
-      </slot>
+        <div class="flex-1 flex flex-col min-w-0 h-full relative">
+            <slot name="header" v-if="showHeader">
+                <Header />
+            </slot>
 
-      <main id="main-content" class="flex-1 overflow-y-auto p-4 md:p-8 pb-24 lg:pb-8 scrollbar-hide">
-        <div class="max-w-6xl mx-auto w-full">
-          <router-view v-slot="{ Component }">
-            <transition name="page-fade" mode="out-in">
-              <component :is="Component" :key="$route.fullPath" />
-            </transition>
-          </router-view>
+            <main
+                class="flex-1 overflow-y-auto scrollbar-hide"
+                :class="{ 'pb-24 lg:pb-8': showTabs }"
+            >
+                <div class="kubix-main">
+                    <router-view />
+                </div>
+            </main>
+
+            <slot name="tabs" v-if="showTabs">
+                <MobileTabs
+                    class="lg:hidden fixed bottom-0 left-0 right-0 z-[90]"
+                    @action:camera="ui.openCamera"
+                />
+            </slot>
         </div>
-      </main>
+   
 
-      <slot name="tabs">
-        <MobileTabs 
-          v-if="$route.meta.showTabs !== false" 
-          class="lg:hidden fixed bottom-0 left-0 right-0 z-[90]" 
+    <transition name="fade">
+        <ScannerOverlay
+            v-if="ui.isCameraOpen"
+            class="z-[100]"
+            @close="ui.closeCamera"
+            @result="onScanResult"
         />
-      </slot>
-    </div>
-  </div>
+    </transition>
+   </div>
 </template>
 
 <script setup>
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+import { useUIStore } from "@/Kubix/Pwa/Layouts/store/uiStore";
+
+// UI Components
 import Sidebar from "./components/Sidebar.vue";
 import Header from "./components/Header.vue";
 import MobileTabs from "./components/mobile/MobileTabs.vue";
+import ScannerOverlay from "./components/scanner/ScannerOverlay.vue";
+
+// Logic
+import { resolveQR } from "./components/scanner/qrResolver";
+
+const ui = useUIStore();
+const route = useRoute();
+
+// Estado reactivo
+const isDark = computed(() => ui.isDark);
+
+// Control por metadatos de ruta (permite ocultar elementos en Login o Mapas)
+const showHeader = computed(() => route.meta.showHeader !== false);
+const showTabs = computed(() => route.meta.showTabs !== false);
 
 /**
- * El Layout es un 'Dummy Component'. 
- * Recibe órdenes del orquestador superior.
+ * 📷 SCAN HANDLER
  */
-defineProps({
-  isDark: {
-    type: Boolean,
-    default: false
-  }
-});
+const onScanResult = async (qr) => {
+    try {
+        const result = await resolveQR(qr);
+        console.log("[KUBIX QR]", result);
+
+        // Aquí puedes manejar la navegación o el feedback
+        ui.closeCamera();
+    } catch (err) {
+        // IMPORTANTE: Feedback en Português para el usuario
+        console.error("[QR ERROR]", err);
+    }
+};
 </script>
 
 <style scoped>
-.scrollbar-hide::-webkit-scrollbar { display: none; }
-.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
-
-/* Transiciones suaves de PWA */
-.page-fade-enter-active, 
-.page-fade-leave-active { 
-  transition: opacity 0.2s ease, transform 0.2s ease; 
+/* Ocultar scrollbar pero mantener scroll funcional */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
-.page-fade-enter-from { 
-  opacity: 0; 
-  transform: translateY(4px); /* Menos agresivo, más 'app native' */
+/* Transición de páginas suave */
+.page-fade-enter-active,
+.page-fade-leave-active {
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
 }
 
-.page-fade-leave-to { 
-  opacity: 0; 
-  transform: translateY(-4px); 
+.page-fade-enter-from {
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+.page-fade-leave-to {
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+/* Transición simple para el Scanner */
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.3s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
 }
 </style>

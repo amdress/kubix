@@ -1,10 +1,10 @@
 <template>
   <div class="sidebar-root">
-
+    <!-- OVERLAY MÓVIL -->
     <Transition name="fade">
       <div 
         v-if="!ui.sidebarCollapsed" 
-        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[950] lg:hidden"
+        class="fixed inset-0 bg-black/40 z-[950] lg:hidden"
         @click="ui.sidebarCollapsed = true"
       ></div>
     </Transition>
@@ -12,117 +12,99 @@
     <aside
       :class="[
         'h-screen flex flex-col transition-all duration-300 border-r z-[1000]',
-        // WEB: 'relative' empuja al Header. MOBILE: 'fixed' flota.
         'fixed lg:relative top-0 left-0', 
-        ui.sidebarCollapsed ? '-translate-x-full lg:translate-x-0 lg:w-[80px]' : 'translate-x-0 w-[280px]',
-        ui.isDark ? 'bg-slate-900 border-slate-800 text-white' : 'bg-white border-slate-100 text-slate-900'
+        ui.sidebarCollapsed ? '-translate-x-full lg:translate-x-0 lg:w-15' : 'translate-x-0 w-72',
+        'bg-slate-950 border-slate-800 text-white'
       ]"
     >
-    
-      <div class="p-6 border-b flex flex-col items-center" :class="ui.isDark ? 'border-slate-800' : 'border-slate-50'">
-        <div 
-          class="relative rounded-2xl p-[2px] transition-all duration-500 shadow-xl"
-          :style="{ background: activeBranding.gradient }"
-          :class="ui.sidebarCollapsed ? 'w-10 h-10' : 'w-20 h-20'"
-        >
-          <div :class="['w-full h-full rounded-[calc(1rem-2px)] p-1', ui.isDark ? 'bg-slate-900' : 'bg-white']">
-            <img :src="auth.user?.avatar" class="w-full h-full rounded-lg object-cover" />
-          </div>
-          <div class="absolute -bottom-1 -right-1 w-6 h-6 rounded-lg border-2 border-white flex items-center justify-center text-white" :style="{ backgroundColor: activeBranding.primary }">
-            <component :is="activeBranding.icon" :size="12" weight="bold" />
-          </div>
-        </div>
-
-        <div v-if="!ui.sidebarCollapsed" class="mt-4 w-full text-center">
-          <h2 class="text-sm font-black truncate tracking-tight">{{ auth.user?.name }} Amdress</h2>
-          <div class="mt-3 px-2">
-            <select 
-              @change="(e) => handleSwitch(e.target.value)"
-              class="w-full text-[10px] font-black uppercase py-2 bg-slate-100 rounded-xl border-none text-slate-500 text-center cursor-pointer appearance-none hover:bg-slate-200 transition-all"
-            >
-              <option v-for="ctx in auth.availableContexts" :key="ctx.id" :value="ctx.id" :selected="currentId === ctx.id">
-                {{ ctx.label }}
-              </option>
-            </select>
-          </div>
-        </div>
+      <!-- PROFILE -->
+      <div class="px-3 py-3 flex-shrink-0">
+        <ProfileCard :collapsed="ui.sidebarCollapsed" :user="currentUser" />
       </div>
 
-      <nav class="flex-1 overflow-y-auto p-4 space-y-2 custom-scroll">
+      <!-- NAV -->
+      <nav class="flex-1 overflow-y-auto px-2 space-y-1 custom-scroll">
         <router-link 
-          v-for="item in menuItems" :key="item.label" :to="item.to"
-          class="flex items-center gap-4 p-3 rounded-xl transition-all font-bold text-sm"
+          v-for="item in menuItems" 
+          :key="item.label" 
+          :to="item.to"
+          @click="closeOnMobile"
+          class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all text-sm"
           :class="[
             ui.sidebarCollapsed ? 'justify-center' : 'justify-start',
-            $route.name === item.to.name ? 'bg-blue-500/10 text-blue-600' : 'text-slate-400 hover:bg-slate-50'
+            $route.name === item.to.name 
+              ? 'bg-cyan-600 text-white' 
+              : 'text-slate-400 hover:text-white hover:bg-slate-800'
           ]"
         >
-          <component :is="item.icon" :size="24" :weight="$route.name === item.to.name ? 'fill' : 'bold'" />
-          <span v-if="!ui.sidebarCollapsed" class="truncate">{{ item.label }}</span>
+          <component 
+            :is="item.icon" 
+            :size="20" 
+            :weight="$route.name === item.to.name ? 'fill' : 'bold'" 
+          />
+          <span v-if="!ui.sidebarCollapsed" class="truncate font-semibold text-xs uppercase tracking-wide">
+            {{ item.label }}
+          </span>
         </router-link>
       </nav>
 
-      <div class="p-4 border-t" :class="ui.isDark ? 'border-slate-800' : 'border-slate-50'">
-        <button @click="$emit('logout')" class="w-full flex items-center gap-4 p-3 rounded-xl text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all" :class="ui.sidebarCollapsed ? 'justify-center' : 'justify-start'">
-          <PhSignOut :size="22" weight="bold" />
-          <span v-if="!ui.sidebarCollapsed" class="text-[10px] font-black uppercase tracking-widest">Sair</span>
+      <!-- FOOTER -->
+      <div class="px-2 py-3 border-t border-slate-800 flex-shrink-0">
+        <button 
+          @click="handleLogout" 
+          class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-400 hover:text-red-400 hover:bg-red-950/30 transition-all" 
+          :class="ui.sidebarCollapsed ? 'justify-center' : 'justify-start'"
+        >
+          <PhSignOut :size="20" weight="bold" />
+          <span v-if="!ui.sidebarCollapsed" class="text-xs font-semibold uppercase tracking-wide">Logout</span>
         </button>
       </div>
-
     </aside>
   </div>
 </template>
 
 <script setup>
 import { computed } from "vue";
-import { useUIStore } from "../store/useUIStore";
-import { useAuthStore } from "@/Kubix/core/stores/authStore";
+import { useUIStore } from '@/Kubix/Pwa/Layouts/store/uiStore'
 import { useWorkSpaceStore } from "@/Kubix/core/stores/workspaceStore";
-import { useContextStore } from "@/Kubix/core/stores/contextStore";
-import { PhHouse, PhUser, PhSignOut, PhMegaphone, PhCompass, PhLayout, PhHouseLine, PhBriefcase } from "@phosphor-icons/vue";
+import { 
+  PhHouse, PhSignOut, PhCompass, PhLayout, 
+  PhSpeedometer, PhStorefront, PhGearSix, PhCaretRight, PhMonitor
+} from "@phosphor-icons/vue";
+import ProfileCard from "./ProfileCard.vue";
 
 const ui = useUIStore();
-const auth = useAuthStore();
 const workspace = useWorkSpaceStore();
-const context = useContextStore();
 
 defineEmits(['logout']);
 
-const currentId = computed(() => workspace.isActive ? workspace.current.id : 'user_0');
-
-const activeBranding = computed(() => {
-  if (workspace.isActive) {
-    return { gradient: workspace.branding.gradient, primary: workspace.branding.primary, icon: PhBriefcase };
-  }
-  return { gradient: "linear-gradient(135deg, #3b82f6, #06b6d4)", primary: "#3b82f6", icon: PhUser };
-});
-
-const handleSwitch = (id) => {
-  const selected = auth.availableContexts.find(c => c.id === id);
-  if (selected) {
-    workspace.setWorkspace(selected);
-    context.setMode(selected.type);
-    if (window.innerWidth < 1024) ui.sidebarCollapsed = true;
+// Cierra el sidebar en móvil después de hacer click
+const closeOnMobile = () => {
+  if (window.innerWidth < 1024) {
+    ui.sidebarCollapsed = true;
   }
 };
 
+const currentUser = {
+  name: 'Amdress Stark',
+  role: 'nomada',
+  avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop'
+};
+
+const activeBranding = computed(() => {
+  if (workspace.isActive) {
+    return { gradient: workspace.branding.gradient };
+  }
+  return { gradient: "linear-gradient(135deg, #3b82f6, #06b6d4)" };
+});
+
 const menuItems = computed(() => {
-
-
-  // if (workspace.isActive) {
-  //   return [
-  //     { label: "Dashboard", to: { name: "business.dashboard" }, icon: PhLayout },
-  //     ...workspace.solutions.map(s => ({
-  //       label: s.name, to: { path: s.path }, icon: s.slug === 'alugapp' ? PhHouseLine : PhMegaphone
-  //     }))
-  //   ];
-  // }
-
-
   return [
     { label: "Mural", to: { name: "social.mural" }, icon: PhHouse },
-    // { label: "Radar", to: { name: "social.radar" }, icon: PhCompass },
-    // { label: "Meu Perfil", to: { name: "social.profile" }, icon: PhUser },
+    { label: "Radar", to: { name: "social.radar" }, icon: PhCompass },
+    { label: "Negócios", to: { name: "workspace.admin.businessList" }, icon: PhStorefront },
+    { label: "Dashboard", to: { name: "workspace.business.dashboard" }, icon: PhSpeedometer },
+    { label: "Configurações", to: { name: "workspace.admin.businessConfig" }, icon: PhGearSix },
   ];
 });
 </script>

@@ -1,39 +1,57 @@
 /**
  * ════════════════════════════════════════════════════════════════
- * 🏗️ KUBIX — Router Index (vCLEAN - BYPASS MODE)
+ * 🏗️ KUBIX — Router Core (EXTENSIBLE BYPASS MODE)
  * ════════════════════════════════════════════════════════════════
- * RESPONSABILIDAD: Navegación directa sin obstrucciones.
- * ESTADO: Middlewares desactivados temporalmente para desarrollo de flujo.
+ *
+ * RESPONSABILIDAD:
+ * - Registrar rutas principales de la PWA
+ * - Definir punto de extensión para futuros guards
+ *
+ * ESTADO:
+ * - Guards desactivados (flujo libre)
+ * - Pipeline preparado (no acoplado)
+ *
+ * DISEÑO:
+ * - Middleware desacoplado del router core
+ * - Activación progresiva sin refactor
+ *
+ * UBICACIÓN:
+ * - /Kubix/core/router/index.js
+ *
  * ════════════════════════════════════════════════════════════════
  */
 
 import { createRouter, createWebHistory } from 'vue-router'
-
-// RUTAS (Tu archivo de rutas PWA)
 import pwaRoutes from '@/Kubix/Pwa/routes'
+
+// 🔹 FUTURO: importar pipeline de guards
+// import { runGuards } from './pipeline'
 
 const router = createRouter({
   history: createWebHistory(),
   routes: pwaRoutes,
+
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) return savedPosition
+    return { top: 0 }
+  }
 })
 
 /**
- * PIPELINE SIMPLIFICADO
- * Actualmente en modo "Puerta Abierta" para facilitar el testeo de los nuevos Stores.
+ * 🔹 EXTENSION POINT — Navigation Pipeline
+ * Aquí se conectará el sistema de guards sin tocar el core.
  */
-router.beforeEach((to, from, next) => {
-  // Por ahora, no hay guardias, no hay peajes.
-  // Solo fluidez para validar la inyección de datos en los componentes.
-  
-  next()
-})
+router.beforeEach(async (to, from, next) => {
+  // 🚧 BYPASS MODE
+  return next()
 
-/**
- * SCROLL BEHAVIOR (Opcional pero recomendado para PWA)
- * Siempre vuelve al inicio al cambiar de ruta, excepto en navegación "atrás".
- */
-router.afterEach((to, from) => {
-  window.scrollTo(0, 0)
+  // 🔒 FUTURO (activar cuando esté listo)
+  // try {
+  //   await runGuards(to, from)
+  //   next()
+  // } catch (e) {
+  //   next(e.redirect || '/')
+  // }
 })
 
 export default router

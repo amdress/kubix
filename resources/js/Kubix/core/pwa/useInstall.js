@@ -1,6 +1,19 @@
 /**
  * ════════════════════════════════════════════════════════════════
- * 📲 KUBIX — PWA Install Composable (CLEAN / PRODUCTION)
+ * 📲 KUBIX — PWA Install Composable (UI LAYER)
+ * ════════════════════════════════════════════════════════════════
+ *
+ * RESPONSABILIDAD:
+ * - Manejar UI de instalación PWA
+ * - Detectar prompt del navegador
+ * - Ejecutar instalación desde interacción del usuario
+ *
+ * DEPENDE DE:
+ * - browser beforeinstallprompt event
+ *
+ * UBICACIÓN:
+ * /Kubix/core/pwa/useInstall.js
+ *
  * ════════════════════════════════════════════════════════════════
  */
 
@@ -13,9 +26,6 @@ export function useInstall() {
   let deferredPrompt = null
   let initialized = false
 
-  // ─────────────────────────────────────────
-  // DETECT INSTALLED
-  // ─────────────────────────────────────────
   const checkIfInstalled = () => {
     try {
       isInstalled.value =
@@ -26,58 +36,39 @@ export function useInstall() {
     }
   }
 
-  // ─────────────────────────────────────────
-  // BEFORE INSTALL
-  // ─────────────────────────────────────────
   const onBeforeInstallPrompt = (event) => {
     event.preventDefault()
-
     deferredPrompt = event
     canInstall.value = true
   }
 
-  // ─────────────────────────────────────────
-  // INSTALLED EVENT
-  // ─────────────────────────────────────────
   const onAppInstalled = () => {
     deferredPrompt = null
     canInstall.value = false
     isInstalled.value = true
   }
 
-  // ─────────────────────────────────────────
-  // INSTALL ACTION
-  // ─────────────────────────────────────────
   const install = async () => {
     if (!deferredPrompt) return false
 
-    try {
-      deferredPrompt.prompt()
+    deferredPrompt.prompt()
 
-      const { outcome } = await deferredPrompt.userChoice
+    const { outcome } = await deferredPrompt.userChoice
 
-      deferredPrompt = null
-      canInstall.value = false
+    deferredPrompt = null
+    canInstall.value = false
 
-      return outcome === 'accepted'
-    } catch {
-      return false
-    }
+    return outcome === 'accepted'
   }
 
-  // ─────────────────────────────────────────
-  // LIFECYCLE
-  // ─────────────────────────────────────────
   onMounted(() => {
     if (initialized) return
     initialized = true
 
     checkIfInstalled()
 
-    if ('onbeforeinstallprompt' in window) {
-      window.addEventListener('beforeinstallprompt', onBeforeInstallPrompt)
-      window.addEventListener('appinstalled', onAppInstalled)
-    }
+    window.addEventListener('beforeinstallprompt', onBeforeInstallPrompt)
+    window.addEventListener('appinstalled', onAppInstalled)
   })
 
   onUnmounted(() => {

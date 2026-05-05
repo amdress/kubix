@@ -1,0 +1,3 @@
+<template>
+    Business Profile
+</template>

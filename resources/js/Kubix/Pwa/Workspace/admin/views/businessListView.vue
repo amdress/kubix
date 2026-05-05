@@ -1,3 +1,0 @@
-<template>
-    business List
-</template>

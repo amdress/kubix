@@ -1,0 +1,3 @@
+<template>
+    mural detail
+</template>

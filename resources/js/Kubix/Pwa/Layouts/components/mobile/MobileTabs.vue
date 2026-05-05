@@ -1,58 +1,57 @@
 <template>
   <nav
     :class="[
-      'fixed bottom-0 left-0 right-0 h-[70px] px-2 pb-safe z-[90] border-t transition-all duration-300 shadow-[0_-10px_30px_rgba(0,0,0,0.15)]',
+      'fixed bottom-0 left-0 right-0 h-[72px] px-2 z-[90] border-t transition-all duration-300 pb-safe shadow-[0_-10px_30px_rgba(0,0,0,0.1)]',
       ui.isDark ? 'bg-slate-900 border-white/10' : 'bg-white border-slate-200'
     ]"
   >
-    <div class="flex items-center justify-between max-w-lg mx-auto h-full relative overflow-visible">
+    <div class="flex items-center justify-between max-w-lg mx-auto h-full relative px-2">
       
-      <router-link :to="{ name: 'social.mural' }" class="nav-item">
-        <div :class="['icon-wrapper', isActive('user.mural') ? 'active' : 'inactive']">
-          <PhLayout :size="24" :weight="isActive('user.mural') ? 'fill' : 'bold'" />
+      <router-link :to="{ name: 'social.mural' }" class="nav-item group">
+        <div :class="['icon-pill', isActive('social.mural') ? 'active' : 'inactive']">
+          <PhLayout :size="24" :weight="isActive('social.mural') ? 'fill' : 'bold'" />
         </div>
-        <span :class="['label', { 'text-white': ui.isDark && isActive('user.mural'), 'text-blue-600': !ui.isDark && isActive('user.mural') }]">
+        <span :class="['label', isActive('social.mural') ? 'text-blue-600' : 'opacity-40']">
           Mural
         </span>
       </router-link>
 
-      <router-link :to="{ name: 'social.directory' }" class="nav-item">
-        <div :class="['icon-wrapper', isActive('user.directory') ? 'active' : 'inactive']">
-          <PhAddressBook :size="24" :weight="isActive('user.directory') ? 'fill' : 'bold'" />
+      <router-link :to="{ name: 'social.radar' }" class="nav-item group">
+        <div :class="['icon-pill', isActive('social.radar') ? 'active' : 'inactive']">
+          <PhCompass :size="24" :weight="isActive('social.radar') ? 'fill' : 'bold'" />
         </div>
-        <span :class="['label', { 'text-white': ui.isDark && isActive('user.directory') }]">
-          Guia
+        <span :class="['label', isActive('social.radar') ? 'text-blue-600' : 'opacity-40']">
+          Radar
         </span>
       </router-link>
 
-      <!-- Camara principal  -->
-      <div class="relative -translate-y-5">
+      <!-- camera action -->
+      <div class="relative -translate-y-6">
         <button 
           @click="$emit('action:camera')"
-          class="w-14 h-14 rounded-2xl flex items-center justify-center shadow-2xl transition-all duration-300 active:scale-90 bg-blue-600 shadow-blue-600/40 text-white"
+          class="w-14 h-14 rounded-2xl flex items-center justify-center shadow-2xl 
+                 bg-blue-600 text-white transition-all duration-300 
+                 active:scale-75 active:rotate-12 hover:shadow-blue-500/40 outline-none"
         >
-          <PhCamera :size="32" weight="bold" />
+          <PhCamera :size="28" weight="bold" />
         </button>
-        <span class="absolute -bottom-7 left-1/2 -translate-x-1/2 label text-slate-500">
-          Postar
-        </span>
       </div>
 
-      <router-link :to="{ name: 'social.events' }" class="nav-item">
-        <div :class="['icon-wrapper', isActive('user.events') ? 'active' : 'inactive']">
-          <PhCalendarStar :size="24" :weight="isActive('user.events') ? 'fill' : 'bold'" />
+      <router-link :to="{ name: 'social.events' }" class="nav-item group">
+        <div :class="['icon-pill', isActive('social.events') ? 'active' : 'inactive']">
+          <PhCalendarStar :size="24" :weight="isActive('social.events') ? 'fill' : 'bold'" />
         </div>
-        <span :class="['label', { 'text-white': ui.isDark && isActive('user.events') }]">
+        <span :class="['label', isActive('social.events') ? 'text-blue-600' : 'opacity-40']">
           Eventos
         </span>
       </router-link>
 
-      <router-link :to="{ name: 'social.market' }" class="nav-item">
-        <div :class="['icon-wrapper', isActive('user.market') ? 'active' : 'inactive']">
-          <PhStorefront :size="24" :weight="isActive('user.market') ? 'fill' : 'bold'" />
+      <router-link :to="{ name: 'social.profile' }" class="nav-item group">
+        <div :class="['icon-pill', isActive('social.profile') ? 'active' : 'inactive']">
+          <PhUser :size="24" :weight="isActive('social.profile') ? 'fill' : 'bold'" />
         </div>
-        <span :class="['label', { 'text-white': ui.isDark && isActive('user.market') }]">
-          Market
+        <span :class="['label', isActive('social.profile') ? 'text-blue-600' : 'opacity-40']">
+          Perfil
         </span>
       </router-link>
 
@@ -62,13 +61,13 @@
 
 <script setup>
 import { useRoute } from "vue-router";
-import { useUIStore } from "@/Kubix/pwa/layouts/store/useUIStore"; 
+import { useUIStore } from '@/Kubix/Pwa/Layouts/store/uiStore'
 import { 
   PhLayout, 
-  PhAddressBook, 
+  PhCompass,
   PhCamera, 
   PhCalendarStar, 
-  PhStorefront 
+  PhUser,
 } from "@phosphor-icons/vue";
 
 const route = useRoute();
@@ -76,34 +75,49 @@ const ui = useUIStore();
 
 defineEmits(['action:camera']);
 
-const isActive = (name) => route.name === name;
+/**
+ * Lógica de activación:
+ * Si la ruta es la raíz ('/') o el nombre coincide, Mural se activa por defecto.
+ */
+const isActive = (name) => {
+  if (name === 'social.mural' && (route.name === name || route.path === '/')) {
+    return true;
+  }
+  return route.name === name;
+};
 </script>
 
 <style scoped>
-.pb-safe { padding-bottom: calc(env(safe-area-inset-bottom) + 0.5rem); }
+.pb-safe { 
+  padding-bottom: env(safe-area-inset-bottom); 
+}
 
 .nav-item {
-  @apply flex flex-col items-center justify-center gap-1 w-16 outline-none no-underline transition-all duration-200;
+  @apply flex flex-col items-center justify-center gap-1 w-16 outline-none no-underline transition-all duration-300;
 }
 
-.icon-wrapper {
-  @apply transition-all duration-300;
+.icon-pill {
+  @apply w-12 h-8 rounded-full flex items-center justify-center transition-all duration-300;
 }
 
-.icon-wrapper.active {
-  @apply scale-110 text-blue-600;
+.icon-pill.active {
+  @apply bg-blue-600/10 text-blue-600 scale-110;
 }
 
-.icon-wrapper.inactive {
-  @apply opacity-60 text-slate-500;
+:deep(.dark) .icon-pill.active {
+  @apply bg-blue-500/20 text-blue-400;
+}
+
+.icon-pill.inactive {
+  @apply opacity-50 text-slate-500;
 }
 
 .label {
-  @apply text-[8px] font-black uppercase tracking-tighter text-slate-500;
+  @apply text-[9px] font-black uppercase tracking-tighter text-slate-500 transition-colors duration-300;
 }
 
 nav { 
+  -webkit-tap-highlight-color: transparent;
   transform: translateZ(0); 
-  -webkit-transform: translateZ(0); 
 }
 </style>

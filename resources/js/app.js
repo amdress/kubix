@@ -14,6 +14,7 @@ import App from './app.vue'
 import i18n from './i18n'
 import { setupPlugins } from '@/Kubix/core/plugins'
 import { setupApi } from '@/Kubix/core/api'
+import { usePwaManager } from '@/Kubix/core/pwa/pwaManager'
 
 
 // Import the stores that will be used in the boot process
@@ -53,9 +54,15 @@ function bootCore() {
     contextStore
   });
 
+
+  // 🔥 PWA SYSTEM INIT (AQUÍ)
+  const pwa = usePwaManager()
+  pwa.init()
+
+
   console.log('%c[KUBIX] STORES: READY', 'color:#22c55e;font-weight:bold');
 
-  return { contextStore, authStore, socialStore };
+  return { contextStore, authStore, socialStore, pwa };
 }
 
 /**
@@ -63,9 +70,9 @@ function bootCore() {
  * Responsabilidad: Verificar sesión y estado inicial.
  */
 async function bootstrap(core) {
-  const { authStore, contextStore } = core;
+  const { authStore, contextStore, pwa } = core;
 
-  contextStore.setSplash(true);
+  contextStore.setSplash(false);
 
   try {
     console.log('%c[KUBIX] BOOT: START', 'color:#3b82f6;font-weight:bold');
@@ -74,6 +81,10 @@ async function bootstrap(core) {
     // await authStore.init();
 
     console.log('%c[KUBIX] BOOT: READY', 'color:#10b981;font-weight:bold');
+
+      if (!pwa.isInstalled.value) {
+        console.log('%c[KUBIX] PWA: NOT INSTALLED', 'color:#f59e0b;font-weight:bold', pwa.isInstalled.value);
+      }
 
 
   } catch (error) {

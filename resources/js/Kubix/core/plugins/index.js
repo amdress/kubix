@@ -2,9 +2,15 @@
  * ════════════════════════════════════════════════════════════════
  * ⚡ KUBIX — Plugins Registry (ORCHESTRATION CORE)
  * ════════════════════════════════════════════════════════════════
- * - Construye servicios
- * - Expone registry global
- * - Sin Vue plugin system (NO app.use)
+ * RESPONSABILIDAD:
+ * - Crear servicios (loading, alert, maps, charts)
+ * - Exponer registry global
+ * - Inyectar en Vue (provide)
+ *
+ * REGLAS:
+ * - NO usar app.use()
+ * - Servicios desacoplados (pure JS)
+ * - Acceso vía inject('kubix')
  * ════════════════════════════════════════════════════════════════
  */
 
@@ -14,7 +20,7 @@ import { createLeafletService } from './leaflet.plugin'
 import { createEChartsService } from './echarts.plugin'
 
 /**
- * ⚡ REGISTRY FACTORY
+ * 🧱 REGISTRY FACTORY
  */
 function createRegistry() {
   return {
@@ -26,30 +32,38 @@ function createRegistry() {
 }
 
 /**
- * ⚙️ BOOTSTRAP CENTRAL
+ * ⚙️ BOOTSTRAP
  */
 export function setupPlugins(app) {
-  console.group('%c⚙️ KUBIX PLUGINS BOOT', 'color:#a78bfa;font-weight:bold')
+  console.group('%c⚙️ KUBIX PLUGINS', 'color:#a78bfa;font-weight:bold')
 
-  const registry = createRegistry()
+  const kubix = createRegistry()
 
-  // opcional: attach global access
-  app.config.globalProperties.$kubix = registry
-  app.provide('kubix', registry)
+  // 🔗 Vue Injection
+  app.provide('kubix', kubix)
 
-  console.log('✔ Registry ready:', Object.keys(registry))
+  // 🌍 Global (debug opcional)
+  if (import.meta.env.DEV) {
+    window.$kubix = kubix
+    console.log('✔ Plugins:', Object.keys(kubix))
+  }
 
   console.groupEnd()
 
-  return registry
+  return kubix
 }
 
 /**
- * 🧩 DEBUG EXPORTS
+ * 🧩 HELPER SIMPLE (opcional pero útil)
  */
-export {
-  createLoadingService,
-  createSweetAlertService,
-  createLeafletService,
-  createEChartsService,
+import { inject } from 'vue'
+
+export function useKubix() {
+  const kubix = inject('kubix')
+
+  if (!kubix) {
+    throw new Error('[KUBIX] Plugins no inicializados')
+  }
+
+  return kubix
 }

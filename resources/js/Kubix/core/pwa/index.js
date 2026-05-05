@@ -1,15 +1,32 @@
 /**
- * ============================================================
- * KUBIX — PWA Index
- * @location Kubix/core/pwa/index.js
- * ============================================================
+ * ════════════════════════════════════════════════════════════════
+ * 📲 KUBIX — PWA Index (ENTRY POINT)
+ * ════════════════════════════════════════════════════════════════
+ *
+ * RESPONSABILIDAD:
+ * - Punto único de inicialización del sistema PWA
+ * - Exportar composables públicos
+ * - Registrar Service Worker global
+ *
+ * NO HACE:
+ * - No maneja lógica de UI
+ * - No gestiona estado interno
+ *
+ * UBICACIÓN:
+ * /Kubix/core/pwa/index.js
+ *
+ * ════════════════════════════════════════════════════════════════
  */
+
 export { useInstall } from './useInstall'
 export { useOffline } from './useOffline'
+export { usePwaManager } from './pwaManager'
 
-// Registrar Service Worker
+// ─────────────────────────────────────────
+// SERVICE WORKER REGISTRATION
+// ─────────────────────────────────────────
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js').catch(() => {
-    // Service Worker no disponible
+    console.warn('[PWA] Service Worker no disponible')
   })
 }

@@ -26,6 +26,7 @@
     "dependencies": {
         "@phosphor-icons/vue": "^2.2.1",
         "echarts": "^6.0.0",
+        "html5-qrcode": "^2.3.8",
         "leaflet": "^1.9.4",
         "pinia": "^3.0.4",
         "sweetalert2": "^11.26.3",

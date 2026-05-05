@@ -2,7 +2,7 @@
  * ════════════════════════════════════════════════════════════════
  * 🏗️ KUBIX — Unified Routes (vCLEAN - STRUCTURED)
  * ════════════════════════════════════════════════════════════════
- * GRUPOS: Auth, Social, Workspace, Kubix + Fallbacks
+ * GRUPOS: Auth (Guest), Social/Workspace (PWA), Kubix (Admin)
  * ════════════════════════════════════════════════════════════════
  */
 
@@ -11,14 +11,15 @@ import { useContextStore } from '@/Kubix/core/stores/contextStore'
 // LAYOUTS
 import AppLayout from '@/Kubix/Pwa/Layouts/AppLayout.vue'
 import GuestLayout from '@/Kubix/Pwa/Layouts/GuestLayout.vue'
+import AdminLayout from '@/Kubix/Pwa/Layouts/AdminLayout.vue' // <--- El nuevo "chasis"
 
 // FEATURE ROUTES
-import authRoutes from '@/Kubix/Pwa/Auth/routes'           // Registro / Login
-import socialRoutes from '@/Kubix/Pwa/Social/routes'       // Mural / Directorio / Market
-import workspaceRoutes from '@/Kubix/Pwa/Workspace/routes' // Gestión de Negocios (Company/Branch)
-import kubixRoutes from '@/Kubix/Pwa/Kubix/routes'         // Core / Admin / Territory Monitor
+import authRoutes from '@/Kubix/Pwa/Auth/routes'
+import socialRoutes from '@/Kubix/Pwa/Social/routes'
+import workspaceRoutes from '@/Kubix/Pwa/Workspace/routes'
+import TerritoryKubixRoutes from '@/Kubix/Pwa/TerritoryKubix/routes' // El Dash que estamos limpiando
 
-// 1. CONTEXTO PÚBLICO (Puerta de entrada & Auth)
+// 1. 🟢 CONTEXTO PÚBLICO (GuestLayout)
 const guestRoutes = {
   path: '/',
   component: GuestLayout,
@@ -26,69 +27,53 @@ const guestRoutes = {
     {
       path: '',
       name: 'home',
-      component: () => {
+      component: async () => {
         const context = useContextStore();
-        console.log('Contexto en Ruta Home:', context.isMobile ? 'Mobile' : 'Desktop');
-
-        /**
-         * RESOLUCIÓN DINÁMICA
-         * Si es Mobile (PWA) -> Splash de Ciudad.
-         * Si es Desktop -> Landing Page.
-         */
-        return context.isMobile
-          ? import('./Pages/Splash/CitySplashScreen.vue')
-          : import('./Pages/Landing/LandingView.vue');
+        if (context.isMobile) {
+          return await import('./Pages/Splash/CitySplashScreen.vue');
+        }
+        return await import('./Pages/Landing/LandingView.vue');
       },
-      meta: {
-        showHeader: true,
-        showFooter: true,
-      }
+      meta: { showHeader: true, showFooter: true }
     },
-
-    // Flujo de Autenticación (Login, Registro, Recuperar)
-    ...authRoutes,
-
+    ...authRoutes, // Login, Registro, etc.
     {
       path: 'no-coverage',
       name: 'public.no-coverage',
       component: () => import('@/Kubix/Pwa/Pages/Errors/NoCoverage.vue'),
-      meta: { title: 'Sem Cobertura' }
     },
   ],
 }
 
-// 2. CONTEXTO PRIVADO (El ecosistema KUBIX)
+// 2. 🔵 CONTEXTO PWA / MOBILE-FIRST (AppLayout)
 const appRoutes = {
   path: '/app',
   component: AppLayout,
+  redirect: '/app/social',
   children: [
-    /**
-     * 🌐 SOCIAL: El motor del barrio (Mural, Market, Events)
-     */
     {
       path: 'social',
+      name: 'social',
       children: socialRoutes,
     },
-
-    /**
-     * 💼 WORKSPACE: Gestión operativa (Empresas y Sucursales)
-     */
     {
       path: 'workspace',
+      name: 'workspace',
       children: workspaceRoutes,
     },
-
-    /**
-     * 🛠️ KUBIX: El panel de control del sistema y territorios
-     */
-    {
-      path: 'kubix',
-      children: kubixRoutes,
-    }
   ],
 }
 
-// 3. FALLBACKS & ERRORS
+// 3. 🔴 CONTEXTO ADMINISTRATIVO / CONTROL PLANE (AdminLayout)
+// Aquí es donde vive la magia de la jerarquía que construimos
+const adminRoutes = {
+  path: '/kubix',
+  component: AdminLayout,
+  redirect: { name: 'kubix.dashboard' },
+  children: TerritoryKubixRoutes, 
+}
+
+// 4. ⚠️ FALLBACKS & ERRORS
 const errorRoutes = [
   {
     path: '/403',
@@ -105,5 +90,6 @@ const errorRoutes = [
 export default [
   guestRoutes,
   appRoutes,
+  adminRoutes,
   ...errorRoutes,
 ]

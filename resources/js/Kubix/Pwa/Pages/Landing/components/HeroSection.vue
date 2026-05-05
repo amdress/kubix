@@ -107,7 +107,7 @@ import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import { useTerritoryStore } from '@/Kubix/core/stores/territoryStore'
-import KubixMap from '@/Kubix/Pwa/shared/maps/WorldMap.vue' 
+import KubixMap from '@/Kubix/Pwa/shared/Ui/maps/WorldMap.vue' 
 
 const router = useRouter()
 const { t } = useI18n({ useScope: 'global' })

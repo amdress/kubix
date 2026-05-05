@@ -1,3 +1,0 @@
-<template>
-    Market View
-</template>

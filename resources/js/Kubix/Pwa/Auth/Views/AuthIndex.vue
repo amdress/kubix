@@ -172,7 +172,7 @@ import { useI18n } from 'vue-i18n'
 import { useContextStore } from '@/Kubix/core/stores/contextStore'
 import { useTerritoryStore } from '@/Kubix/core/stores/territoryStore'
 import { PhSignIn, PhUserPlus, PhDotsThreeVertical } from "@phosphor-icons/vue"
-import KubixInput from '@/Kubix/common/Ui/BaseInput.vue'
+import KubixInput from '@/Kubix/shared/Ui/BaseInput.vue'
 
 const { t } = useI18n()
 const context = useContextStore()
